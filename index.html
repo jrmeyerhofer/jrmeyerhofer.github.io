@@ -2,24 +2,12 @@
 
 <html>
   <head>
-    <title>jrmeyerhofer.github.io</title>
+    <title>Twitter &hearts; Open Source</title>
     <link rel="stylesheet" type="text/css" href="assets/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/grid.css">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
     <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
-    <script type="text/javascript">
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-39101739-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-    </script>
     <script type="text/javascript" src="assets/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="assets/strftime.js"></script>
     <script type="text/javascript">
@@ -27,9 +15,10 @@
 
       // Put custom repo URL's in this object, keyed by repo name.
       var repoUrls = {
-        "bootstrap": "http://twitter.github.com/bootstrap/",
-        "finagle": "http://twitter.github.com/finagle/",
-        "hogan.js": "http://twitter.github.com/hogan.js/"
+        "reveal.js": "http://jrmeyerhofer.github.com/reveal.js/"
+      //  "bootstrap": "http://twitter.github.com/bootstrap/",
+      //  "finagle": "http://twitter.github.com/finagle/",
+      //  "hogan.js": "http://twitter.github.com/hogan.js/"
       };
 
       function repoUrl(repo) {
@@ -38,8 +27,7 @@
 
       // Put custom repo descriptions in this object, keyed by repo name.
       var repoDescriptions = {
-        "bootstrap": "An HTML, CSS, and JS toolkit designed to kickstart development of webapps and sites",
-        "naggati2": "A protocol builder for Netty using Scala 2.8"
+        "reveal.js": "A super awesome repository"
       };
 
       function repoDescription(repo) {
@@ -81,12 +69,14 @@
         repos = repos || [];
         page = page || 1;
 
-        var uri = "https://api.github.com/orgs/twitter/repos?callback=?"
+    //    var uri = "https://api.github.com/orgs/twitter/repos?callback=?"
+        var uri = "https://api.github.com/users/jrmeyerhofer/repos?callback=?"
                 + "&per_page=100"
                 + "&page="+page;
 
         $.getJSON(uri, function (result) {
           if (result.data && result.data.length > 0) {
+          console.log(result);
             repos = repos.concat(result.data);
             addRepos(repos, page + 1);
           }
@@ -157,7 +147,28 @@
         });
       }
       getNumMembers();
+      
+      //get activity
+      function getActivity(page, numEvents) {
+        var page = page || 1;
+        var numMembers = numMembers || 0;
+        var membersUri = "https://api.github.com/users/jrmeyerhofer/events?callback=?"
+          + "&per_page=100"
+          + "&page="+page;
 
+        $.getJSON(membersUri, function (result) {
+          if (result.data && result.data.length > 0) {
+            numEvents += result.data.length;
+            getActivity(page+1, numEvents);
+          } else {
+            $(function () {
+              $("#num-events").text(numEvents);
+            });
+          }
+        });
+      }
+      getActivity();
+      
       function randomItem(array) {
         return array[Math.floor(Math.random() * array.length)];
       }
@@ -249,20 +260,21 @@
   <body>
     <div id="wrapper" class="grid clearfix">
       <div id="main" class="grid-1">
-        <div><h1>Join GitHub Now!</h1></div>
-        <h1>This is the page of jrmeyerhofer on GitHub.</h1>
-        <p>Got questions? <a href="https://github.com/jrmeyerhofer">Try GitHub!</a></p>
+        <div><h1>Get in on Open Source!</h1></div>
+        <h2>jrmeyerhofer.github.io</h2>
+        <h1>is built on open source software.</h1>
+        <p>Want to help? <a href="https://github.com">Get on GitHub!</a></p>
+        <p>Thanks to Twitter for the <a href="https://github.com/twitter/twitter.github.com">web template</a></p>
       </div>
 
       <div class="grid grid-3">
         <div id="statistics" class="grid-1 alpha header">
           <h1>Statistics</h1>
           <p>
-            <a href="https://github.com/jrmeyerhofer?tab=repositories"><span id="num-repos"><img src="assets/spinner.gif" /></span> public repos</a>
-            <br>
-            <a href="https://github.com/jrmeyerhofer?tab=activity"><span id="num-members"><img src="assets/spinner.gif" /></span> activity</a>
+            <a href="https://github.com/jrmeyerhofer/repositories"><span id="num-repos"><img src="assets/spinner.gif" /></span> public repos</a>
+
           </p>
-          <p class="email"><a href="mailto:">test@test.com</a></p>
+          <p class="email"><a href="mailto:test@test.com">test@test.com</a></p>
         </div>
 
         <div id="recently-updated" class="grid-2 omega header">
