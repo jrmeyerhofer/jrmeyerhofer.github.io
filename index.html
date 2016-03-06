@@ -130,12 +130,12 @@
       //get activity
       function getActivity(page, numEvents) {
         var page = page || 1;
-        var numMembers = numMembers || 0;
-        var membersUri = "https://api.github.com/users/jrmeyerhofer/events?callback=?"
+        var numEvents = numEvents || 0;
+        var eventssUri = "https://api.github.com/users/jrmeyerhofer/events?callback=?"
           + "&per_page=100"
           + "&page="+page;
 
-        $.getJSON(membersUri, function (result) {
+        $.getJSON(eventsUri, function (result) {
           if (result.data && result.data.length > 0) {
             numEvents += result.data.length;
             getActivity(page+1, numEvents);
@@ -146,8 +146,10 @@
           }
         });
       }
-      //getActivity();
+      getActivity();
             
+      //put in the browser: https://api.github.com/users/jrmeyerhofer/events
+      //https://api.github.com/users/jrmeyerhofer/repos
     })(jQuery);
     </script>
   </head>
@@ -160,16 +162,13 @@
         <p>Want to help? <a href="https://github.com">Get on GitHub!</a></p>
         <p>Thanks to Twitter for the <a href="https://github.com/twitter/twitter.github.com">web template</a></p>
       </div>
-
+      
       <div class="grid grid-3">
         <div id="statistics" class="grid-1 alpha header">
           <h1>Statistics</h1>
           <p>
-            <a href="https://github.com/jrmeyerhofer/repositories"><span id="num-repos"><img src="assets/spinner.gif" /></span> public repos</a>
-            <br>
-     <!--       <a href="https://github.com/jrmeyerhofer?tab=activity"><span id="num-events"><img src="assets/spinner.gif" /></span> activity</a> -->
+            <a href="https://github.com/jrmeyerhofer/repositories"><span id="num-repos"><img src="assets/spinner.gif" /></span> public repos</a> 
           </p>
-          <p class="email"><a href="mailto:test@test.com">test@test.com</a></p>
         </div>
 
         <div id="recently-updated" class="grid-2 omega header">
@@ -179,6 +178,15 @@
       </div>
 
       <ol id="repos"></ol>
+      
+      <ol id="blogs">
+        <li class="repo blog grid-4">
+        <h2>Blog Heading 1</h2>
+        <p>What an exciting time for educators, program leaders, and librarians! With a broad partnership across government, developers, publishers, and libraries, 
+        Open eBooks, a service that allows in-need children access to eBooks without incurring any costs, has been announced to the public. Check out Open eBooks now or read more about the service below.</p>
+        </li>
+        </ol>
+      
     </div>
   </body>
 </html>
