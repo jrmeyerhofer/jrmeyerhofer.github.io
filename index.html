@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>Twitter &hearts; Open Source</title>
+    <title>jrmeyerhofer.github.io</title>
     <link rel="stylesheet" type="text/css" href="assets/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/grid.css">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
@@ -17,7 +17,6 @@
       var repoUrls = {
         "reveal.js": "http://jrmeyerhofer.github.com/reveal.js/"
       //  "bootstrap": "http://twitter.github.com/bootstrap/",
-      //  "finagle": "http://twitter.github.com/finagle/",
       //  "hogan.js": "http://twitter.github.com/hogan.js/"
       };
 
@@ -126,28 +125,7 @@
         });
       }
       addRepos();
-
-      //get total number of Twitter members
-      function getNumMembers(page, numMembers) {
-        var page = page || 1;
-        var numMembers = numMembers || 0;
-        var membersUri = "https://api.github.com/orgs/twitter/members?callback=?"
-          + "&per_page=100"
-          + "&page="+page;
-
-        $.getJSON(membersUri, function (result) {
-          if (result.data && result.data.length > 0) {
-            numMembers += result.data.length;
-            getNumMembers(page+1, numMembers);
-          } else {
-            $(function () {
-              $("#num-members").text(numMembers);
-            });
-          }
-        });
-      }
-      getNumMembers();
-      
+ 
       //get activity
       function getActivity(page, numEvents) {
         var page = page || 1;
@@ -169,20 +147,6 @@
       }
       getActivity();
       
-      function randomItem(array) {
-        return array[Math.floor(Math.random() * array.length)];
-      }
-
-      var $flyzone;
-
-      function flyzone() {
-        if (!$flyzone) {
-          $flyzone = $("<div>").attr("id", "flyzone").prependTo(document.body);
-        }
-
-        return $flyzone;
-      }
-
       var sizes = ["smaller", "small", "medium", "large", "fat"];
 
       var sizeDimensions = {
@@ -202,58 +166,7 @@
 
         return opacity;
       }
-
-      function makeLarry(sizeName, speed) {
-        var size = sizeDimensions[sizeName];
-        var top = Math.floor((flyzone().height() - size) * Math.random());
-
-        var $img = $("<img>")
-          .addClass("larry size-" + sizeName)
-          .attr("src", "assets/larry.png")
-          .attr("width", size)
-          .attr("height", size)
-          .css({
-            position: "absolute",
-            opacity: randomOpacity(0.4),
-            top: top,
-            left: -size
-          });
-
-        $img.prependTo(flyzone());
-
-        var left = flyzone().width() + size;
-
-        $img.animate({left: left}, speed, function () {
-          $img.remove();
-          makeRandomLarry();
-        });
-
-        return $img;
-      }
-
-      function makeRandomLarry() {
-        var size = randomItem(sizes);
-        var speed = Math.floor(Math.random() * 20000) + 15000;
-        return makeLarry(size, speed);
-      }
-
-      $(function () {
-        $("#logo").click(function () {
-          makeRandomLarry();
-        });
-      });
-
-      var match = (/\blarry(=(\d+))?\b/i).exec(window.location.search);
-
-      if (match) {
-        var n = parseInt(match[2]) || 20;
-
-        $(function () {
-          for (var i = 0; i < n; ++i) {
-            setTimeout(makeRandomLarry, Math.random() * n * 500);
-          }
-        });
-      }
+            
     })(jQuery);
     </script>
   </head>
